@@ -1,0 +1,75 @@
+<html><canvas id="b" width="1350" height="400" style="border:5px solid black; background-color:white;"></canvas>
+<head><strong><link rel="stylesheet" href="{{ url_for ('static',filename='main.css')}}">
+</strong></head>
+
+{% for i in value1 %}
+<center><p>Image:<font size='5' color="Red">{{ i.filename }}</font></p>
+<input type=button id={{i.imagedata}} value="click to load" onclick="load(this.id)"></center>
+<script type="text/javascript">
+function load(imagedata){
+var canvas=document.getElementById("b");
+var context=canvas.getContext('2d');
+context.clearRect(0, 0, 1350, 400);
+J=JSON.parse(imagedata);
+
+for (i in J){
+if (J[i]['Type']=='pencil'){
+   context.beginPath();
+   context.moveTo(J[i]['X0'],J[i]['Y0']);
+   context.lineTo(J[i]['X1'],J[i]['Y1']);
+   context.strokeStyle=J[i]['color']
+   context.stroke();
+   context.closePath();}
+if (J[i]['Type']=='line'){
+   context.beginPath();
+   start1=J[i]['X0'];
+   start2=J[i]['Y0'];
+   end1=J[i]['X1'];
+   end2=J[i]['Y1'];
+   context.moveTo(start1,start2);
+   context.lineTo(end1,end2);
+   context.stroke();
+   context.strokeStyle=J[i]['color']
+   context.closePath();}
+if (J[i]['Type']=='rect'){
+   
+   start1=J[i]['X0'];
+   start2=J[i]['Y0'];
+   height=J[i]['H'];
+   width=J[i]['W'];
+   context.strokeStyle=J[i]['color'];
+   
+   context.strokeRect(start1,start2,width,height); 
+   context.fillStyle=J[i]['color'];
+  if (J[i]['fill']==true){
+	context.fillRect(start1,start2,width,height);}
+       }
+if (J[i]['Type']=='circle'){
+   context.beginPath();
+   start1=J[i]['X0'];
+   start2=J[i]['Y0'];
+   end1=J[i]['X1'];
+   end2=J[i]['Y1'];
+	context.arc(start1,start2,Math.sqrt(Math.pow(end1-start1,2)+Math.pow(end2-start2,2)),0,360,true);
+context.strokeStyle=J[i]['color']
+        context.fillStyle=J[i]['color']
+   if (J[i]['fill']==true){
+	context.fill()}
+        
+	context.stroke();
+   context.closePath();}
+if (J[i]['Type']=='brush'){
+   context.beginPath();
+   context.moveTo(J[i]['X0'],J[i]['Y0']);
+   context.lineTo(J[i]['X1'],J[i]['Y1']);
+   context.strokeStyle=J[i]['color']
+   context.lineWidth=J[i]['width']
+   context.stroke();
+   context.closePath();}
+
+}}
+
+
+</script>
+{% endfor %}
+</html>

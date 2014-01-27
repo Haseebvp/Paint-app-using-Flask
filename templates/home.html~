@@ -1,0 +1,231 @@
+<html>
+<head>
+<head><strong><link rel="stylesheet" href="{{ url_for ('static',filename='main.css')}}">
+</strong></head>
+<left>
+<canvas id="a" width="1350" height="400" style="border:5px solid black;background-color:white"></canvas>
+</left>
+<script src="{{url_for('static',filename='min.js')}}"></script>
+<frame><center>
+<input type="button" value="Pencil" onclick="pencil()">
+<input type="button" value="Line" onclick="line()">
+<input type="button" value="Rectangle" onclick="rect()">
+<input type="button" value="Circle" onclick="circle()">
+
+<input type="button" value="brush" onclick="brush()">
+<input type="button" value="Erase" onclick="erase()">
+<input type="button" value="Clear" onclick="reset()">
+
+</center><br>
+<center><font size='4' color="blue">Select mode:</font><input type="radio" name="__" onclick="fill()" value="true" ><font size='3' color="black">Fill
+<input type="radio" name="__" onclick="border()" value="false">Border</font>
+<br><font size='4' color="blue">Filename</font><input id="filename" name="filename"><input type="button" value="Save" onclick="save()">
+<a href="gallery">Gallery</a>
+</center>
+</frame>
+<table><left><top>
+<table border=2 bgcolor=#FFFFFF align="left">
+<td><div onclick = "color('#0000ff')" style ="width:20px;height:20px;background-color:#0000ff"></div><td>
+<td><div onclick = "color('#009fff')" style ="width:20px;height:20px;background-color:#009fff"></div><td>
+<td><div onclick = "color('#0fffff')" style ="width:20px;height:20px;background-color:#0fffff"></div><td>
+<td><div onclick = "color('#bfffff')" style ="width:20px;height:20px;background-color:#bfffff"></div><td>
+<td><div onclick = "color('#000000')" style ="width:20px;height:20px;background-color:#000000"></div><td>
+<td><div onclick = "color('#333333')" style ="width:20px;height:20px;background-color:#333333"></div><td>
+<td><div onclick = "color('#666666')" style ="width:20px;height:20px;background-color:#666666"></div><td>
+<td><div onclick = "color('#999999')" style ="width:20px;height:20px;background-color:#999999"></div><td>
+<td><div onclick = "color('#ffcc66')" style ="width:20px;height:20px;background-color:#ffcc66"></div><td>
+<td><div onclick = "color('#ffcc00')" style ="width:20px;height:20px;background-color:#ffcc00"></div><td>
+<td><div onclick = "color('#ffff00')" style ="width:20px;height:20px;background-color:#ffff00"></div><td>
+<td><div onclick = "color('#ffff99')" style ="width:20px;height:20px;background-color:#ffff99"></div><td>
+<td><div onclick = "color('#003300')" style ="width:20px;height:20px;background-color:#003300"></div><td>
+<td><div onclick = "color('#555000')" style ="width:20px;height:20px;background-color:#555000"></div><td>
+<tr>
+<td><div onclick = "color('#00ff00')" style ="width:20px;height:20px;background-color:#00ff00"></div><td>
+<td><div onclick = "color('#99ff99')" style ="width:20px;height:20px;background-color:#99ff99"></div><td>
+<td><div onclick = "color('#f00000')" style ="width:20px;height:20px;background-color:#f00000"></div><td>
+<td><div onclick = "color('#ff6600')" style ="width:20px;height:20px;background-color:#ff6600"></div><td>
+<td><div onclick = "color('#ff9933')" style ="width:20px;height:20px;background-color:#ff9933"></div><td>
+<td><div onclick = "color('#F5DEB3')" style ="width:20px;height:20px;background-color:#F5DEB3"></div><td>
+<td><div onclick = "color('#FFFFFF')" style ="width:20px;height:20px;background-color:#FFFFFF"></div><td>
+<td><div onclick = "color('#663300')" style ="width:20px;height:20px;background-color:#663300"></div><td>
+<td><div onclick = "color('#cc6600')" style ="width:20px;height:20px;background-color:#cc6600"></div><td>
+<td><div onclick = "color('#DEB887')" style ="width:20px;height:20px;background-color:#DEB887"></div><td>
+<td><div onclick = "color('#aa0fff')" style ="width:20px;height:20px;background-color:#aa0fff"></div><td>
+<td><div onclick = "color('#cc66cc')" style ="width:20px;height:20px;background-color:#cc66cc"></div><td>
+<td><div onclick = "color('#ff66ff')" style ="width:20px;height:20px;background-color:#ff66ff"></div><td>
+<td><div onclick = "color('#ff99ff')" style ="width:20px;height:20px;background-color:#ff99ff"></div><td>
+
+</tr>
+</left></table>
+<script>
+pulse=false;
+var imagedata=[];
+var canvas=document.getElementById("a");
+var context=canvas.getContext('2d');
+
+function fill(){
+pulse=true;}
+function border(){
+pulse=false;}
+function pencil(){
+	canvas.onmousedown=pencildown;
+	canvas.onmouseup=pencilup;
+	canvas.onmousemove=pencilmove;
+
+function pencildown(a){
+	x=a.x;
+	y=a.y;
+	draw3=true;
+	}
+function pencilup(){
+	draw3=false;
+}
+function pencilmove(to){
+if (draw3){
+   p =to.x;
+   q =to.y;
+   context.beginPath();
+   context.moveTo(x,y);
+   context.lineTo(p,q);
+   context.stroke();
+   context.closePath();
+   imagedata.push({"Type":"pencil", "X0":x,"Y0":y,"X1":p,"Y1":q,"color":context.strokeStyle})
+   x=p;
+   y=q;
+ }}}
+function color(colour){
+context.strokeStyle=colour;
+context.fillStyle=colour;
+}
+function line(){
+	canvas.onmousedown=linedown;
+	canvas.onmouseup=lineup;
+	canvas.onmousemove=linemove;
+function linedown(a){
+	image=context.getImageData(0,0,canvas.width,canvas.height);
+	start1=a.x;
+	start2=a.y;
+	draw2=true;}
+function lineup(){
+	draw2=false;
+	imagedata.push({"Type":"line", "X0":start1,"Y0":start2,"X1":end1,"Y1":end2,"color":context.strokeStyle})
+}
+function linemove(a){
+	if (draw2){
+	context.putImageData(image,0,0);
+	end1=a.x;
+	end2=a.y;
+	context.beginPath();
+	context.moveTo(start1,start2);
+	context.lineTo(end1,end2);
+	context.stroke();
+	context.closePath();
+	
+}}}
+function rect(){
+	canvas.onmousedown=rectdown;
+	canvas.onmouseup=rectup;
+	canvas.onmousemove=rectmove;
+function rectdown(a){
+	image=context.getImageData(0,0,canvas.width,canvas.height);
+	start1=a.x;
+	start2=a.y;
+	draw=true;
+}
+function rectup(){
+	draw=false;
+	imagedata.push({"Type":"rect", "X0":start1,"Y0":start2,"W":width,"H":height,"fill":pulse,"color":context.strokeStyle})
+}
+function rectmove(a){
+	if (draw){
+	context.putImageData(image,0,0);
+	width=a.x-start1;
+	height=a.y-start2;
+	context.strokeRect(start1,start2,width,height);
+	if(pulse==true){
+		context.fillRect(start1,start2,width,height);
+		}}}}
+function circle(){
+	canvas.onmousedown=circledown;
+	canvas.onmouseup=circleup;
+	canvas.onmousemove=circlemove;
+
+function circledown(a){
+	image=context.getImageData(0,0,canvas.width,canvas.height);
+	start1=a.x;
+	start2=a.y;
+	draw1=true;
+}
+function circleup(){
+	draw1=false;
+	imagedata.push({"Type":"circle", "X0":start1,"Y0":start2,"X1":end1,"Y1":end2,"width":context.lineWidth,"fill":pulse,"color":context.strokeStyle})
+}
+function circlemove(a){
+	if (draw1){
+	context.putImageData(image,0,0);
+	end1=a.x;
+	end2=a.y;
+	context.beginPath();
+	context.arc(start1,start2,Math.sqrt(Math.pow(end1-start1,2)+Math.pow(end2-start2,2)),0,360,true);
+	context.stroke();
+	if(pulse==true){
+		context.fill();}
+	context.closePath();
+	
+}}}
+function brush(){
+	canvas.onmousedown=brushdown;
+	canvas.onmouseup=brushup;
+	canvas.onmousemove=brushmove;
+function brushdown(a){
+	x=a.x;
+	y=a.y;
+	drawb=true;
+	}
+function brushup(){
+	drawb=false;
+	
+}
+function brushmove(to){
+if (drawb){
+   p =to.x;
+   q =to.y;
+   context.beginPath();
+   context.moveTo(x,y);
+   context.lineTo(p,q);
+   context.stroke();
+   context.closePath();
+   context.lineWidth=5;
+   imagedata.push({"Type":"brush", "X0":x,"Y0":y,"X1":p,"Y1":q,"width":5,"color":context.strokeStyle});
+   x=p;
+   y=q;
+   		 }}}
+
+function save() {
+if(filename.value==""){alert("You need to enter filename!!")}
+
+$.post("/save/"+filename.value,{'name':filename.value,'data':JSON.stringify(imagedata)},function(data,status){alert("saved")});
+}
+
+function erase(){
+	canvas.onmousedown=erasedown;
+	canvas.onmouseup=eraseup;
+	canvas.onmousemove=erasemove;
+function erasedown(a){
+	draw=true;
+}
+function eraseup(){
+	draw=false;
+}
+function erasemove(a){
+	if(draw){
+	x=a.x;
+	y=a.y;
+	context.clearRect(x,y,15,15);}}}		
+function reset(){
+	context.clearRect(0,0,1350,600);}
+
+
+</script>
+</head>
+</html>

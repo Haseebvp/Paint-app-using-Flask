@@ -1,0 +1,44 @@
+if (J[i]['Type']=='line'){
+   context.beginPath();
+   x=J[i]['X0'];
+   y=J[i]['Y0'];
+   p=J[i]['X1'];
+   q=J[i]['Y1'];
+   context.moveTo(x,y);
+   context.lineTo(p,q);
+   context.stroke();
+   context.closePath();}
+if (J[i]['Type']=='rect'){
+   context.beginPath();
+   start1=J[i]['X0'];
+   start2=J[i]['Y0'];
+   height=J[i]['H'];
+   width=J[i]['W'];
+   context.strokeRect(start1,start2,width,height);
+   if (J[i]['fill']==true){
+	context.fillRect(start1,start2,width,height);}
+      context.closePath();}
+if (J[i]['Type']=='circle'){
+   context.beginPath();
+   context.arc(J[i]['X0'],J[i]['X1'],Math.sqrt(Math.pow(J[i]['X1']-J[i]['X0'],2)+Math.pow(J[i]['Y1']-J[i]['Y0'],2)),0,360,true);
+   if (J[i]['fill']==true){
+	context.fill()}
+	context.stroke();
+   context.closePath();}
+	
+
+
+function load(imagedata){
+alert("hghgh");
+var canvas=document.getElementById("b");
+var context=canvas.getContext('2d');
+J=JSON.parse(imagedata);
+for i in J{
+if (J[i]['Type']=='pencil'){
+   alert("hai");
+   context.beginPath();
+   context.moveTo(J[i]['X0'],J[i]['Y0']);
+   context.lineTo(J[i]['X1'],J[i]['Y1']);
+   context.stroke();
+   context.closePath();}
+}}
